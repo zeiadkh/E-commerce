@@ -1,0 +1,50 @@
+!!!! check req.user.id
+- subcat crud
+
+	-virtual (slug) ✔️          
+	-virtual popuate(cat & subcat)
+		-toJSON: {virtylas:true}
+		-toobject: {virtylas:true}
+	-merge params "cat/:catid/subcat
+
+- pre and post in mongoose 
+- methonds in mongoose 
+
+// product
+*** check category existance
+cloudinary.api.delete-folder
+//////////////.delete-resources(array)
+
+pagination( (pg.number -1) * step)
+selection 
+sort
+search using regex 
+
+strict query true
+check page query
+query.custom func (query helper)
+
+////////////////////////////////////////////////////////////////
+
+cart module:
+products[{productid, quantity}], user
+
+creae cart : check product existance => check quantity
+
+get cart 
+
+delete product from cart
+
+clear products from cart
+
+order shcema: 
+user, porducts[productid, quantity, name, itemPrice, totalPrice], 
+invoice, address, phone, price, coupon{id, name, discount}, 
+status enum[placed, shipped ,delivered, cancled, refunded]
+payment
+
+-------------------------------------------------------------------------------------
+
+- morgan
+- pdfkit
+- dirname (meta.url, fileurltopath, path.dirname)
