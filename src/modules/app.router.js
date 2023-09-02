@@ -11,7 +11,7 @@ const appRouter = (app, express) => {
   app.use(express.json());
   process.env.MODE ? app.use(morgan("dev")) : "";
   
-  const whiteList = ["http://127.0.0.1:8080", "https://e-commerce-three-rust.vercel.app/"];
+  const whiteList = ["http://127.0.0.1:8080", "https://76.76.21.142"];
   app.use((req, res, next) => {
     console.log(req.headers);
     if(req.originalUrl.includes("user/cofirmEmail")) {
