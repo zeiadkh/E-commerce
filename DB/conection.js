@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import {catSchema} from "./models/category.model.js";
-const connectDB = async () => await mongoose.connect(process.env.atlas)
+const connectDB = async () => await mongoose.connect(process.env.ATLAS)
 .then(() => console.log('DB Connected'))
 .catch((err) => console.log(err))
 
