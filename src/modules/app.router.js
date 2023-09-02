@@ -19,8 +19,8 @@ const appRouter = (app, express) => {
       res.setHeader("Access-Control-Allow-Methods", "GET");
       return next()
     }
-    if (!(whiteList.includes(req.header("origin"))))
-      return next(new Error("Access denied", { cause: 401 }));
+    // if (!(whiteList.includes(req.header("origin"))))
+    //   return next(new Error("Access denied", { cause: 401 }));
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "*");
     res.setHeader("Access-Control-Allow-Methods", "*");
