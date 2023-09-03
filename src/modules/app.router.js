@@ -14,7 +14,7 @@ const appRouter = (app, express) => {
     if (req.originalUrl === "/order/webhook"){
       return next();
     } 
-    express.json()(req, res, next);
+    // express.json()(req, res, next);
   })
   // app.use(express.json())
   process.env.MODE ? app.use(morgan("dev")) : "";
