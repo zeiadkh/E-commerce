@@ -11,7 +11,7 @@ const appRouter = (app, express) => {
   app.use((req, res, next) => {
     if (req.originalUrl !== "/order/webhook") return express.json()(req, res, next);
   })
-  app.use(express.json());
+  // app.use(express.json());
   process.env.MODE ? app.use(morgan("dev")) : "";
   
   const whiteList = ["http://127.0.0.1:8080", "https://76.76.21.142"];
