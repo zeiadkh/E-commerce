@@ -175,13 +175,9 @@ export const cancelOrder = async (req, res, next) => {
 
 export const webHook = async (req, res, next) => {
   console.log("enter")
-const stripe = new Stripe(process.env.STRIPE_KEY)
-
-const endpointSecret = process.env.END_POINT_KEY;
-
-
+  const stripe = new Stripe(process.env.STRIPE_KEY)
+  const endpointSecret = process.env.END_POINT_KEY;
   const sig = req.headers['stripe-signature'];
-
   let event;
 // try buffer.from
   try {
@@ -196,9 +192,9 @@ const endpointSecret = process.env.END_POINT_KEY;
   if (event.type == 'checkout.session.completed') {
     console.log("webhook")
     await Order.findOneAndUpdate({_id: orderId}, {status: 'paid'})
-    return res.status(200).json({success: true, message: "Paid Successfully"})
+    return;
   }
   await Order.findOneAndUpdate({_id: orderId}, {status: 'paid failed'})
-  return next(new Error("Failed to pay by your card")) 
+  return
 
 }
