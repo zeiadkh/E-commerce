@@ -3,7 +3,7 @@ import connectDB from "./DB/conection.js";
 import appRouter from "./src/modules/app.router.js";
 import express  from 'express'
 const app = express()
-app.use(express.json())
+// app.use(express.json())
 const port = 3000
 appRouter(app, express)
 connectDB()

@@ -174,13 +174,11 @@ export const cancelOrder = async (req, res, next) => {
 }
 
 export const webHook = async (request, response) => {
-  console.log("enter")
   const stripe = new Stripe(process.env.STRIPE_KEY)
   const sig = request.headers['stripe-signature'];
   let event;
-// try buffer.from
   try {
-    event = stripe.webhooks.constructEvent(Buffer.from(JSON.stringify(request.body)), sig, process.env.END_POINT_KEY);
+    event = stripe.webhooks.constructEvent(request.body, sig, process.env.END_POINT_KEY);
   } catch (err) {
     response.status(400).send(`Webhook Error: ${err.message}`);
     console.log(err)
