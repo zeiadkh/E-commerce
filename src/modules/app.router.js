@@ -9,10 +9,11 @@ import orderRouter from "./order/order.router.js";
 import morgan from "morgan";
 import cors from 'cors'
 const appRouter = (app, express) => {
-  app.use((req, res, next) => {
-    if (req.originalUrl == "/order/webhook") return next()
-    express.json()(req, res, next);
-  })
+  // app.use((req, res, next) => {
+  //   if (req.originalUrl == "/order/webhook") return next()
+  //   express.json()(req, res, next);
+  // })
+  app.use(express.json())
   process.env.MODE ? app.use(morgan("dev")) : "";
   
   // const whiteList = ["http://127.0.0.1:8080", "https://76.76.21.142"];
