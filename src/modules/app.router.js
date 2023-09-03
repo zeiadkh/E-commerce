@@ -9,8 +9,9 @@ import orderRouter from "./order/order.router.js";
 import morgan from "morgan";
 import cors from 'cors'
 const appRouter = (app, express) => {
+  app.use(cors())
   app.use((req, res, next) => {
-    if (req.originalUrl == "/order/webhook") return next();
+    if (req.originalUrl === "/order/webhook") return next();
     express.json()(req, res, next);
   })
   // app.use(express.json())
@@ -32,7 +33,6 @@ const appRouter = (app, express) => {
   //   return next();
   // });
 
-  app.use(cors())
   app.use("/user", userRouter);
   app.use("/category", catRouter);
   app.use("/subcategory", subCatRouter);
