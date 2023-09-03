@@ -13,7 +13,6 @@ const appRouter = (app, express) => {
   
   const whiteList = ["http://127.0.0.1:8080", "https://76.76.21.142"];
   app.use((req, res, next) => {
-    console.log(req.headers);
     if(req.originalUrl.includes("user/cofirmEmail")) {
       res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader("Access-Control-Allow-Methods", "GET");

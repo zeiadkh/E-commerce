@@ -151,7 +151,7 @@ if(order.payment == "visa"){
     ...(getCoupon && {discounts: [{coupon: getCoupon.id}]})
   });
   if(session) {
-    catchError(clearCart(userId));
+    // catchError(clearCart(userId));
     return res.json({success: true, result: session.url})
   }
   }
@@ -174,6 +174,7 @@ export const cancelOrder = async (req, res, next) => {
 }
 
 export const webHook = async (req, res, next) => {
+  console.log("enter")
 const stripe = new Stripe(process.env.STRIPE_KEY)
 
 const endpointSecret = process.env.END_POINT_KEY;
@@ -184,7 +185,7 @@ const endpointSecret = process.env.END_POINT_KEY;
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(Buffer.from(req.body), sig, endpointSecret);
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
@@ -192,7 +193,8 @@ const endpointSecret = process.env.END_POINT_KEY;
 
   // Handle the event
   const orderId = event.data.object.metadata.orderId;
-  if (event.type == 'checkout.session.async_payment_succeeded') {
+  if (event.type == 'checkout.session.completed') {
+    console.log("webhook")
     await Order.findOneAndUpdate({_id: orderId}, {status: 'paid'})
     return res.status(200).json({success: true, message: "Paid Successfully"})
   }
