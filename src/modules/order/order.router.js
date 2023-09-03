@@ -12,7 +12,7 @@ router.post("/", isAuthenticated, isValid(createSchema), catchError(create))
 
 router.patch("/:orderId", isValid(cancelSchema), catchError(cancelOrder))
 
-router.post("/webhook", express.raw({type: 'application/json'}), catchError(webHook))
+router.post("/webhook", express.raw({type: 'application/json'}), webHook)
 
 
 
