@@ -7,30 +7,31 @@ import couponRouter from "./coupon/coupon.router.js";
 import cartRouter from "./cart/cart.router.js";
 import orderRouter from "./order/order.router.js";
 import morgan from "morgan";
+import cors from 'cors'
 const appRouter = (app, express) => {
   app.use((req, res, next) => {
     if (req.originalUrl == "/order/webhook") return next()
     express.json()(req, res, next);
   })
-  // app.use(express.json());
   process.env.MODE ? app.use(morgan("dev")) : "";
   
-  const whiteList = ["http://127.0.0.1:8080", "https://76.76.21.142"];
-  app.use((req, res, next) => {
-    if(req.originalUrl.includes("user/cofirmEmail")) {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Access-Control-Allow-Methods", "GET");
-      return next()
-    }
-    // if (!(whiteList.includes(req.header("origin"))))
-    //   return next(new Error("Access denied", { cause: 401 }));
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "*");
-    res.setHeader("Access-Control-Allow-Methods", "*");
-    res.setHeader("Access-Control-Allow-Private-Network", true);
-    return next();
-  });
+  // const whiteList = ["http://127.0.0.1:8080", "https://76.76.21.142"];
+  // app.use((req, res, next) => {
+  //   if(req.originalUrl.includes("user/cofirmEmail")) {
+  //     res.setHeader("Access-Control-Allow-Origin", "*");
+  //     res.setHeader("Access-Control-Allow-Methods", "GET");
+  //     return next()
+  //   }
+  //   // if (!(whiteList.includes(req.header("origin"))))
+  //   //   return next(new Error("Access denied", { cause: 401 }));
+  //   res.setHeader("Access-Control-Allow-Origin", "*");
+  //   res.setHeader("Access-Control-Allow-Headers", "*");
+  //   res.setHeader("Access-Control-Allow-Methods", "*");
+  //   res.setHeader("Access-Control-Allow-Private-Network", true);
+  //   return next();
+  // });
 
+  app.use(cors())
   app.use("/user", userRouter);
   app.use("/category", catRouter);
   app.use("/subcategory", subCatRouter);

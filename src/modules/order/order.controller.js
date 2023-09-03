@@ -173,14 +173,14 @@ export const cancelOrder = async (req, res, next) => {
   return res.json({success: true, message:"order cancelled", result: order})
 }
 
-export const webHook = async (req, res, next) => {
+export const webHook = async (req, res) => {
   console.log("enter")
   const stripe = new Stripe(process.env.STRIPE_KEY)
   const sig = req.headers['stripe-signature'];
   let event;
 // try buffer.from
   try {
-    event = stripe.webhooks.constructEvent(JSON.stringify(req.body), sig, process.env.END_POINT_KEY);
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.END_POINT_KEY);
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
