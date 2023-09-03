@@ -183,9 +183,9 @@ const endpointSecret = process.env.END_POINT_KEY;
   const sig = req.headers['stripe-signature'];
 
   let event;
-
+// try buffer.from
   try {
-    event = stripe.webhooks.constructEvent(Buffer.from(req.body), sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
