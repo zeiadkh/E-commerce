@@ -24,7 +24,7 @@ const orderSchema = new Schema(
     coupon: {
       name: { type: String, },
       id: { type: Types.ObjectId, ref: "Coupon", },
-      discount: { type: Number, min: 1, max: 100,  },
+      discount: { type: Number,  max: 100,  },
     },
     status: {
       type: String,

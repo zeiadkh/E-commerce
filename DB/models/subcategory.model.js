@@ -12,7 +12,7 @@ const subcatSchema = new Schema(
     createdBy: { type: Types.ObjectId, ref: "User", requird: true },
     category: {type: Types.ObjectId, ref: "Category", requird: true}
   },
-  { timeseries: true}
+  { timestamps: true, toJSON: {virtuals: true}, toObject: {virtuals: true }}
 );
 
 subcatSchema.virtual("slug").get(function (){return slugify(this.name)})

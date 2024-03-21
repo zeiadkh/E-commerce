@@ -18,7 +18,7 @@ router.use('/:catId/subcategory', subCatRouter)
 router.use('/:catId/product', productRouter)
 
 router.post(
-  "/create",
+  "/",
   isAuthenticated,
   isAuthroized("admin"),
   uploadFile(typesObj.img).single("catImg"),
@@ -35,7 +35,7 @@ router.patch(
   catchError(update)
 );
 
-router.delete("/:catId", isAuthenticated, isAuthroized,isValid(deleteSchema), catchError(deleteCat));
+router.delete("/:catId", isAuthenticated, isAuthroized("admin"),isValid(deleteSchema), catchError(deleteCat));
 
 router.get("/", catchError(getCat));
 

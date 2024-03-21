@@ -16,10 +16,10 @@ export const sendEmail = async ({ to, subject, temp, attachments }) => {
   const info = await transporter
     .sendMail({
       from: `'"E-Commerce Application 🛒 " <${process.env.EMAIL}>'`, // sender address
-      to, 
-      subject, 
+      to,
+      subject,
       html: temp,
-      attachments
+      attachments,
     })
     .catch((err) => console.log(err));
   if (info.accepted.length >= 0) return true;

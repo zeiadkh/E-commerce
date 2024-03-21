@@ -6,7 +6,6 @@ export const idValidator = (value, helper) =>
 
 export const createCatSchema = joi.object({
   name: joi.string().min(3).required(),
-  createdBy: joi.string().custom(idValidator).required(),
 });
 
 export const updateSchema = joi.object({

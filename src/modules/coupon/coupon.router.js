@@ -36,6 +36,6 @@ router.delete(
   catchError(deleteCoupon)
 );
 
-router.get("/", get);
+router.get("/", catchError(get));
 
 export default router;

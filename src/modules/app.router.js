@@ -1,4 +1,4 @@
-import userRouter from "./user/user.router.js";
+import authRouter from "./auth/auth.router.js";
 import catRouter from "./category/category.router.js";
 import subCatRouter from "./subcategory/subCat.router.js";
 import brandRouter from "./brand/brand.router.js";
@@ -6,28 +6,30 @@ import productRouter from "./product/product.router.js";
 import couponRouter from "./coupon/coupon.router.js";
 import cartRouter from "./cart/cart.router.js";
 import orderRouter from "./order/order.router.js";
+import reviewRouter from "./review/review.router.js";
+import userRouter from "./user/user.router.js";
 import morgan from "morgan";
-import cors from 'cors'
+import cors from "cors";
+
 const appRouter = (app, express) => {
-  app.use(cors())
+  app.use(cors());
   app.use((req, res, next) => {
-    if (req.originalUrl === "/order/webhook"){
+    if (req.originalUrl === "/order/webhook") {
       return next();
-    } 
+    }
     express.json()(req, res, next);
-  })
-  // app.use(express.json())
+  });
   process.env.MODE ? app.use(morgan("dev")) : "";
-  
-  // const whiteList = ["http://127.0.0.1:8080", "https://76.76.21.142"];
+
+  // const whiteList = ["https://e-commerce-three-rust.vercel.app/"];
   // app.use((req, res, next) => {
-  //   if(req.originalUrl.includes("user/cofirmEmail")) {
+  //   if(req.originalUrl.includes("auth/cofirmEmail")) {
   //     res.setHeader("Access-Control-Allow-Origin", "*");
   //     res.setHeader("Access-Control-Allow-Methods", "GET");
   //     return next()
   //   }
-  //   // if (!(whiteList.includes(req.header("origin"))))
-  //   //   return next(new Error("Access denied", { cause: 401 }));
+  //   if (!(whiteList.includes(req.header("origin"))))
+  //     return next(new Error("Access denied", { cause: 401 }));
   //   res.setHeader("Access-Control-Allow-Origin", "*");
   //   res.setHeader("Access-Control-Allow-Headers", "*");
   //   res.setHeader("Access-Control-Allow-Methods", "*");
@@ -35,7 +37,7 @@ const appRouter = (app, express) => {
   //   return next();
   // });
 
-  app.use("/user", userRouter);
+  app.use("/reg", authRouter);
   app.use("/category", catRouter);
   app.use("/subcategory", subCatRouter);
   app.use("/brand", brandRouter);
@@ -43,7 +45,8 @@ const appRouter = (app, express) => {
   app.use("/coupon", couponRouter);
   app.use("/cart", cartRouter);
   app.use("/order", orderRouter);
-  
+  app.use("/review", reviewRouter);
+  app.use("/user", userRouter);
 
   app.all("*", (req, res, next) =>
     next(new Error("page not found", { cause: 404 }))

@@ -14,7 +14,7 @@ import uploadFile, { typesObj } from "../../utils/multer.js";
 const router = new Router({mergeParams: true});
 
 router.post(
-  "/create",
+  "/",
   isAuthenticated,
   isAuthroized("admin"),
   uploadFile(typesObj.img).single("brandImg"),
@@ -33,6 +33,6 @@ router.patch(
 
 router.delete("/:brandId", isValid(deleteSchema), catchError(deleteBrand));
 
-router.get("/get", catchError(get));
+router.get("/", catchError(get));
 
 export default router;

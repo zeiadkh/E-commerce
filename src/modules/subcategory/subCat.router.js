@@ -33,6 +33,6 @@ router.patch(
 
 router.delete("/:subCatId", isValid(deleteSchema), catchError(deleteSubCat));
 
-router.get("/get", catchError(get));
+router.get("/", catchError(get));
 
 export default router;

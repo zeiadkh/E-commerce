@@ -4,7 +4,7 @@ import cloudinary from "../../utils/cloudinary.js";
 
 export const create = async (req, res, next) => {
   const { name } = req.body;
-  const createdBy = req.user.id;
+  const createdBy = req.user._id;
   if (!req.file) return next(new Error("file required"));
   const { secure_url, public_id } = await cloudinary.uploader.upload(
     req.file.path,
@@ -23,7 +23,7 @@ export const create = async (req, res, next) => {
 export const update = async (req, res, next) => {
   const cat = await Category.findOne({ _id: req.params.catId });
   if (!cat) return next(new Error("Category not found"));
-  if(cat.createdBy === req.user.id) return next(new Error("not authorized", {cause: 401}));
+  if(cat.createdBy.toString() != req.user._id.toString()) return next(new Error("not authorized", {cause: 401}));
   cat.name = req.body.name ? req.body.name : cat.name;
   cat.slug = slugify(cat.name);
   await cat.save();
@@ -40,7 +40,7 @@ export const update = async (req, res, next) => {
 export const deleteCat = async (req, res, next) => {
   const id = req.params.catId;
   const cat = await Category.findById(id);
-  cloudinary.uploader.destroy(cat.id);
+  cloudinary.uploader.destroy(cat.img.id).catch(err => console.log(err));
 
   await Category.findOneAndDelete({ _id: id });
   res.json({ sucess: true, message: "Category deleted" });

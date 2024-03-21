@@ -37,6 +37,10 @@ export const create = async (req, res, next) => {
 
   for (let product of cart.products) {
     const fullProduct = await Product.findById(product.productId)
+    if (fullProduct.availableItems < product.quantity)
+      return next(
+        new Error(`there is only ${fullProduct.availableItems} avilable`)
+      );
     const productObj = {
       productId: fullProduct._id,
       quantity: product.quantity,
@@ -44,10 +48,6 @@ export const create = async (req, res, next) => {
       price: fullProduct.price,
       afterDiscount: fullProduct.finalPrice * product.quantity,
     };
-    if (fullProduct.availableItems < product.quantity)
-      return next(
-        new Error(`there is only ${fullProduct.availableItems} avilable`)
-      );
     price += productObj.afterDiscount;
     getProducts.push(productObj);
   }
@@ -61,9 +61,9 @@ export const create = async (req, res, next) => {
     coupon: {
       name: fullCoupon?.name,
       discount: fullCoupon?.discount || 0,
-      id: fullCoupon?._id || 0,
+      id: fullCoupon?._id,
     },
-  ...(payment && {payment})
+    ...(payment && {payment})
   });
 
   // generate invoice
@@ -75,7 +75,7 @@ export const create = async (req, res, next) => {
   const invoice = {
     shipping: {
       name: req.user.userName,
-      address: address,
+      address,
     },
     items: order.products,
     totalWithDiscount: order.price,
@@ -110,6 +110,10 @@ sendEmail({
   subject: `Order ${order._id}`,
   attachments: [{path: secure_url, contentType: 'application/pdf'}],
 });
+if(sendEmail) {
+    catchError(clearCart(userId));
+
+}
 
 // payment
 if(order.payment == "visa"){
@@ -145,14 +149,13 @@ if(order.payment == "visa"){
     payment_method_types: ["card"],
     mode: "payment",
     metadata: {orderId: order._id.toString()},
-    success_url: "http://127.0.0.1:5500/html/paymentSuccess.html",
-    cancel_url: "http://127.0.0.1:5500/html/paymentCancel.html",
+    success_url: "http://127.0.0.1:3000/order/successfull-payment",
+    cancel_url: "http://127.0.0.13000/order/failed-payment",
     line_items: lineItems,
     ...(getCoupon && {discounts: [{coupon: getCoupon.id}]})
   });
   if(session) {
-    // catchError(clearCart(userId));
-    return res.json({success: true, result: session.url})
+    return res.json({success: true, message: "Go To checkpoint!",result: session.url})
   }
   }
   return res.json({
@@ -166,11 +169,12 @@ if(order.payment == "visa"){
 export const cancelOrder = async (req, res, next) => {
   const order = await Order.findById(req.params.orderId);
   if(!order) return next(new Error("order not found"));
-  if(["shipped", "delivered", "refunded", "canceled"].includes(order.status)) return next(new Error("can't cancel this order!"))
+  if(! req.user.id === order.user) return next(new Error("Not authorized to cancel this order", {cause: 401}));
+  if(["shipped", "delivered", "refunded", "canceled", "paid",].includes(order.status)) return next(new Error("can't cancel this order!"))
   order.status = 'canceled';
   await order.save()
   updateStock(order.products, false)
-  return res.json({success: true, message:"order cancelled", result: order})
+  return res.json({success: true, message:"order cancelled"})
 }
 
 export const webHook = async (request, response) => {
@@ -188,7 +192,7 @@ export const webHook = async (request, response) => {
   // Handle the event
   const orderId = event.data.object.metadata.orderId;
   if (event.type == 'checkout.session.completed') {
-    console.log("webhook")
+    catchError(clearCart(userId));
     await Order.findOneAndUpdate({_id: orderId}, {status: 'paid'})
     return;
   }

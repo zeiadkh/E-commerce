@@ -10,7 +10,7 @@ const router = new Router()
 
 router.post("/", isAuthenticated, isValid(createSchema), catchError(create))
 
-router.patch("/:orderId", isValid(cancelSchema), catchError(cancelOrder))
+router.patch("/:orderId", isAuthenticated,isValid(cancelSchema), catchError(cancelOrder))
 
 router.post("/webhook", express.raw({type: 'application/json'}), webHook)
 
