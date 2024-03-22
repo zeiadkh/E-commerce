@@ -4,7 +4,7 @@ import appRouter from "./src/modules/app.router.js";
 import express  from 'express'
 const app = express()
 // app.use(express.json())
-const port = 5000
+const port = process.env.PORT
 appRouter(app, express)
 connectDB()
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
