@@ -8,7 +8,7 @@ import randomstr from "randomstring";
 import { resetTemp, confirmationTemp } from "../../utils/html.mailTemp.js";
 import Cart from "../../../DB/models/cart.model.js";
 
-const api = process.env.MODE === "DEV" ? `http://localhost:${process.env.PORT}` : "https://e-commerce-taa2.onrender.com"
+const host = process.env.MODE === "DEV" ? `http://localhost:${process.env.PORT}` : "https://e-commerce-taa2.onrender.com"
 
 export const register = async (req, res, next) => {
   let { userName, email, password } = req.body;
