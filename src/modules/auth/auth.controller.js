@@ -51,7 +51,7 @@ export const login = async (req, res, next) => {
   if (!passCompare) return next(new Error("Wrong password"));
   const token = jwt.sign(
     { id: user._id, email: user.email },
-    process.env.secret_key,
+    process.env.SECRET_KEY,
     { expiresIn: "2d" }
   );
   await Token.create({
