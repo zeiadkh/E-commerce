@@ -1,9 +1,8 @@
 import nodemailer from "nodemailer";
 import { confirmationTemp } from "./html.mailTemp.js";
-import { host } from "../modules/auth/auth.controller.js";
-
+const api = process.env.MODE === "DEV" ? `http://localhost:${process.env.PORT}` : "https://e-commerce-taa2.onrender.com"
 const transporter = nodemailer.createTransport({
-  host: host,
+  host: api,
   port: 465,
   secure: true,
   service: "gmail",
