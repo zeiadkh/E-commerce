@@ -56,7 +56,7 @@ const appRouter = (app, express) => {
     res.status(err.cause || 500).json({
       sucess: false,
       message: err.message,
-      ...(process.env.mode == "DEV" ? { stack: err.stack } : ""),
+      ...(process.env.MODE == "DEV" ? { stack: err.stack } : ""),
     })
   );
 };

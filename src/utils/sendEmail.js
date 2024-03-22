@@ -1,14 +1,15 @@
 import nodemailer from "nodemailer";
 import { confirmationTemp } from "./html.mailTemp.js";
+import { host } from "../modules/auth/auth.controller.js";
 
 const transporter = nodemailer.createTransport({
-  host: "localhost",
+  host: host,
   port: 465,
   secure: true,
   service: "gmail",
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.email_pass,
+    pass: process.env.EMAIL_PASS,
   },
 });
 

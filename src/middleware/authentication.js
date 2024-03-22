@@ -5,10 +5,10 @@ import catchError from "../utils/catchError.js"
 export const isAuthenticated = catchError(async (req, res, next) => {
   let { token } = req.headers;
   if(!token) return next(new Error("token is required"));
-  if (!token.startsWith(process.env.bearer))
-    return next(new Error("wrong token or bearer"));
-  token = token.split(process.env.bearer)[1];
-  let payload = jwt.verify(token, process.env.secret_key);
+  if (!token.startsWith(process.env.BEARER))
+    return next(new Error("wrong token or "));
+  token = token.split(process.env.BEARER)[1];
+  let payload = jwt.verify(token, process.env.SECRET_KEY);
   if (!payload) return next(new Error("invalid token"));
   const savedToken = await Token.findOne({ token });
   if (!savedToken) return next(new Error("Token not found"));

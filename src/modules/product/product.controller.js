@@ -24,7 +24,7 @@ export const create = async (req, res, next) => {
       const { secure_url, public_id } = await cloudinary.uploader.upload(
         file.path,
         {
-          folder: `${process.env.cloud_folder}/product/${imgsFolder}`,
+          folder: `${process.env.CLOUD_FOLDER}/product/${imgsFolder}`,
         }
       );
       imgs.push({ url: secure_url, id: public_id });
@@ -32,7 +32,7 @@ export const create = async (req, res, next) => {
   }
   const { secure_url, public_id } = await cloudinary.uploader.upload(
     req.files.defaultImg[0].path,
-    { folder: `${process.env.cloud_folder}/product/${imgsFolder}/default` }
+    { folder: `${process.env.CLOUD_FOLDER}/product/${imgsFolder}/default` }
   );
   const product = await Product.create({
     ...req.body,
@@ -111,7 +111,7 @@ export const deleteProduct = async (req, res, next) => {
   product.imgs.forEach((img) => imgsId.push(img.id));
   await cloudinary.api.delete_resources(imgsId);
   await cloudinary.api.delete_folder(
-    `${process.env.cloud_folder}/product/${product.imgsFolder}`
+    `${process.env.CLOUD_FOLDER}/product/${product.imgsFolder}`
   );
   await Product.findByIdAndDelete(req.params.pId);
 

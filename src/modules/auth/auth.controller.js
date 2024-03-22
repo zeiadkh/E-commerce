@@ -8,6 +8,8 @@ import randomstr from "randomstring";
 import { resetTemp, confirmationTemp } from "../../utils/html.mailTemp.js";
 import Cart from "../../../DB/models/cart.model.js";
 
+export const host = process.env.MODE === "DEV" ? `http://localhost:${process.env.PORT}` : "https://e-commerce-taa2.onrender.com"
+
 export const register = async (req, res, next) => {
   let { userName, email, password } = req.body;
 
@@ -18,7 +20,7 @@ export const register = async (req, res, next) => {
   const activationCode = crypto.randomBytes(64).toString("hex");
   const user = await User.create({ userName, email, password, activationCode });
 
-  const confirmationLink = `http://localhost:${process.env.PORT}/user/confirmEmail/${activationCode}`;
+  const confirmationLink = `${host}/user/confirmEmail/${activationCode}`;
 
   if (!user) return next(new Error("Couldn't create user"));
   return (await sendEmail({
