@@ -29,7 +29,7 @@ const userSchema = new Schema({
   forgetCode: {type: String, },
   activationCode: {type: String},
   porfilePic: {
-    url: {type: String, default: "https://res.cloudinary.com/dtp47o37p/image/upload/v1691265763/e-commerce/defaults/png-transparent-default-avatar-thumbnail_mojudr.png"},
+    url: {type: String, default: "https://res.cloudinary.com/dtp47o37p/image/upload/v1709629996/e-commerce/defaults/profile-pic-placeholder_keiu7z.png"},
     id: {type: String, default: "e-commerce/defaults/png-transparent-default-avatar-thumbnail_mojudr"}
   },
   coverImgs: [{url: {type: String, required: true}, id: {type: String, required: true}}]
