@@ -12,7 +12,7 @@ import { sendEmail } from "../../utils/sendEmail.js";
 import { unlink } from 'node:fs/promises';
 import Stripe from "stripe";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const api = process.env.MODE === "DEV" ? `http://localhost:${process.env.PORT}` : "https://e-commerce-taa2.onrender.com"
+const FrontUrl =  "https://next-ecommerce-five-mu.vercel.app"
 
 export const create = async (req, res, next) => {
 
@@ -150,8 +150,8 @@ if(order.payment == "visa"){
     payment_method_types: ["card"],
     mode: "payment",
     metadata: {orderId: order._id.toString()},
-    success_url: `${api}/order/successfull-payment`,
-    cancel_url: `${api}/order/failed-payment`,
+    success_url: `${FrontUrl}/order/successfull-payment`,
+    cancel_url: `${FrontUrl}/order/failed-payment`,
     line_items: lineItems,
     ...(getCoupon && {discounts: [{coupon: getCoupon.id}]})
   });
