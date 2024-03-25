@@ -12,6 +12,7 @@ import { sendEmail } from "../../utils/sendEmail.js";
 import { unlink } from 'node:fs/promises';
 import Stripe from "stripe";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const api = process.env.MODE === "DEV" ? `http://localhost:${process.env.PORT}` : "https://e-commerce-taa2.onrender.com"
 
 export const create = async (req, res, next) => {
 
@@ -149,8 +150,8 @@ if(order.payment == "visa"){
     payment_method_types: ["card"],
     mode: "payment",
     metadata: {orderId: order._id.toString()},
-    success_url: "http://127.0.0.1:3000/order/successfull-payment",
-    cancel_url: "http://127.0.0.13000/order/failed-payment",
+    success_url: `${api}/order/successfull-payment`,
+    cancel_url: `${api}/order/failed-payment`,
     line_items: lineItems,
     ...(getCoupon && {discounts: [{coupon: getCoupon.id}]})
   });
