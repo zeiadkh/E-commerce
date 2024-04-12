@@ -1,6 +1,7 @@
 # Project Description:
 I recently worked on an e-commerce application that aimed to provide a seamless shopping experience for users. The app was built using modern web technologies to ensure responsiveness, speed, and ease of use. It included essential features of an e-commerce platform, such as product browsing, cart management, secure payments, and order management.
-
+## LiveDemo: https://next-ecommerce-five-mu.vercel.app/
+![Portfolio Website](https://res.cloudinary.com/dtp47o37p/image/upload/v1712935855/Screenshot_2024-04-11_031251_c5fbkq.png)
 ### Features:
 1. Stripe Payment Integration:
    - Enabled customers to securely make payments using credit/debit cards.
